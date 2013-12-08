@@ -2,9 +2,18 @@
 %head
   %title Plex Manager
 
+  %link{ :rel => 'stylesheet', :href => '/css/plex_manager.css', :type => 'text/css', :media => 'screen', :carset => 'utf-8' }/
+
+  %script{ :src => '/js/jquery-2.0.3.min.js' }
+  %script{ :src => '/js/app.js'}
+
 %body
   %h1 Plex Manager
 
   %dl
     %dt status
-    %dd= @home_theater.running?
+    %dd
+      - if @home_theater.running?
+        %a{ :class => 'off_button', :href => 'javascript:void(0)' } shut down
+      - else
+        %a{ :class => 'on_button', :href => 'javascript:void(0)' } start up

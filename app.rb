@@ -13,7 +13,7 @@ class PlexDashboardApp < Sinatra::Base
   set :bind, '0.0.0.0'
 
   namespace '/api' do
-    namespace '/h(ometheater)?' do
+    namespace '/h' do
       before do
         @process = HomeTheater::Process.new('Plex Home Theater.app')
       end
