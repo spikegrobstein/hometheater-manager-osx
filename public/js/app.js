@@ -1,12 +1,13 @@
 $(function() {
-  $('.off_button').click(function() {
-    var route = $(this).data('route');
+  $('.service-button').click(function() {
+    var route = $(this).data('route'),
+        action = $(this).data('action');
 
-    console.log(route);
+    console.log('action!');
 
     $.ajax({
       type: 'POST',
-      url: '/api/' + route + '/stop',
+      url: [ '/api', route, action ].join('/'),
       data: '',
       success: function() {
         window.location = '/';
@@ -19,22 +20,5 @@ $(function() {
     return false;
   });
 
-  $('.on_button').click(function() {
-    var route = $(this).data('route');
-
-    $.ajax({
-      type: 'POST',
-      url: '/api/' + route + '/start',
-      data: '',
-      success: function() {
-        window.location = '/';
-      },
-      error: function() {
-        alert('ERROR');
-      }
-    });
-
-    return false;
-  });
 });
 
