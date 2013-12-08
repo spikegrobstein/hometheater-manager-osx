@@ -2,19 +2,23 @@
 %head
   %title Plex Manager
 
-  %link{ :rel => 'stylesheet', :href => '/css/plex_manager.css', :type => 'text/css', :media => 'screen', :carset => 'utf-8' }/
+  %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }
 
-  %script{ :src => '/js/jquery-2.0.3.min.js' }
-  %script{ :src => '/js/app.js'}
+  %link{ :rel => 'stylesheet', :href => '/css/plex_manager.css', :type => 'text/css', :media => 'screen', :carset => 'utf-8' }/
+  %link{ :href => "/css/bootstrap.min.css", :rel => "stylesheet" }/
 
 %body
-  %h1 Plex Manager
 
-  - @applications.each do |app|
-    %h2= app.name
-    %dl
-      %dt status
-      %dd= app.process.running?
-      %dt action
-      %dd
-        %a.service-button{ :href => 'javascript:void(0)', 'data-route' => app.route, 'data-action' => ( app.process.running? ? 'stop' : 'start' ) }= app.process.running? ? 'stop' : 'start'
+  .navbar.navbar-inverse.navbar-fixed-top
+    .container
+      .navbar-header
+        .navbar-brand Plex Manager
+
+  .container{ :style => 'margin-top: 75px;' }
+    - @applications.each do |app|
+      %ul.list-unstyled
+        %button.service-button.btn{ 'data-route' => app.route, 'data-action' => ( app.process.running? ? 'stop' : 'start' ) }= app.name
+
+  %script{ :src => '/js/jquery-2.0.3.min.js' }
+  %script{ :src => '/js/bootstrap.min.js' }
+  %script{ :src => '/js/app.js'}

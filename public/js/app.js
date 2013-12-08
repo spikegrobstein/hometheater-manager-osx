@@ -1,5 +1,9 @@
 $(function() {
-  $('.service-button').click(function() {
+  $('.service-button')
+  .addClass( function() {
+    return $(this).data('action') == 'start' ? 'btn-danger' : 'btn-success';
+  })
+  .click(function() {
     var route = $(this).data('route'),
         action = $(this).data('action');
 
