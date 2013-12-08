@@ -24,9 +24,9 @@ module HomeTheater
     def stop
       return false unless running?
 
-      `kill #{ pid_of_app }`
+      `kill #{ self.pid }`
 
-      running? && `kill -9 #{ pid_of_app }`
+      running? && `kill -9 #{ self.pid }`
       return true
     end
 
@@ -36,8 +36,6 @@ module HomeTheater
       stop
       start
     end
-
-    private
 
     # parse output of `ps aux`
     # return the pid of this process if it's running
