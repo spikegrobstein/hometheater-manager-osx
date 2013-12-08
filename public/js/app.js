@@ -1,8 +1,12 @@
 $(function() {
   $('.off_button').click(function() {
+    var route = $(this).data('route');
+
+    console.log(route);
+
     $.ajax({
       type: 'POST',
-      url: '/api/h/stop',
+      url: '/api/' + route + '/stop',
       data: '',
       success: function() {
         window.location = '/';
@@ -16,9 +20,11 @@ $(function() {
   });
 
   $('.on_button').click(function() {
+    var route = $(this).data('route');
+
     $.ajax({
       type: 'POST',
-      url: '/api/h/start',
+      url: '/api/' + route + '/start',
       data: '',
       success: function() {
         window.location = '/';

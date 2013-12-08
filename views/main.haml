@@ -10,10 +10,14 @@
 %body
   %h1 Plex Manager
 
-  %dl
-    %dt status
-    %dd
-      - if @home_theater.running?
-        %a{ :class => 'off_button', :href => 'javascript:void(0)' } shut down
-      - else
-        %a{ :class => 'on_button', :href => 'javascript:void(0)' } start up
+  - @applications.each do |app|
+    %h2= app.name
+    %dl
+      %dt status
+      %dd= app.process.running?
+      %dt action
+      %dd
+        - if app.process.running?
+          %a{ :class => 'off_button', :href => 'javascript:void(0)', 'data-route' => app.route } shut down
+        - else
+          %a{ :class => 'on_button', :href => 'javascript:void(0)', 'data-route' => app.route } start up

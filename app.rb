@@ -9,6 +9,20 @@ require 'yaml'
 
 require 'pry'
 require './lib/home_theater/process'
+require './lib/home_theater/config'
+
+APPLICATIONS = []
+
+Dir.glob('./config/*.yml').each do |config|
+  config = YAML.load( File.read(config) )
+
+  next unless config['enabled']
+
+  puts "Got config: #{ config['name'] }"
+
+  APPLICATIONS << HomeTheater::Config.new( config )
+end
+
 
 class PlexDashboardApp < Sinatra::Base
   register Sinatra::Namespace
@@ -16,16 +30,11 @@ class PlexDashboardApp < Sinatra::Base
 
   namespace '/api' do
 
-    Dir.glob('./config/*.yml').each do |config|
-      config = YAML.load( File.read(config) )
+    APPLICATIONS.each do |config|
 
-      next unless config['enabled']
-
-      puts "Got config: #{ config['name'] }"
-
-      namespace "/#{ config['route'] }" do
+      namespace "/#{ config.route }" do
         before do
-          @process = HomeTheater::Process.new(config['app_name'])
+          @process = config.process
         end
         get '/status' do
           @process.running?.to_s
@@ -49,7 +58,7 @@ class PlexDashboardApp < Sinatra::Base
   end
 
   get '/' do
-    @home_theater = HomeTheater::Process.new('Plex Home Theater.app')
+    @applications = APPLICATIONS
     haml :main
   end
 
