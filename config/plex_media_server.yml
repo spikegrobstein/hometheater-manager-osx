@@ -1,0 +1,5 @@
+name: "Plex Media Server"
+app_name: "Plex Media Server.app"
+route: "media_server"
+enabled: true
+

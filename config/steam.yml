@@ -1,0 +1,6 @@
+name: "Steam"
+app_name: "Steam.app"
+route: "steam"
+enabled: false
+group: main
+

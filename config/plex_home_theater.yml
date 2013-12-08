@@ -1,0 +1,6 @@
+name: "Plex Home Theater"
+app_name: "Plex Home Theater.app"
+route: "home_theater"
+enabled: true
+group: main
+
