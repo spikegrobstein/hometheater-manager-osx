@@ -27,7 +27,9 @@ module HomeTheater
 
   class App < Sinatra::Base
     register Sinatra::Namespace
+
     set :bind, '0.0.0.0'
+    set :root, File.join( File.dirname(__FILE__), '../..' )
 
     namespace '/api' do
 
