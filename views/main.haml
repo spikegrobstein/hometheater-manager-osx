@@ -18,7 +18,7 @@
     %ul.list-unstyled
       - @applications.each do |app|
         %li
-          %button.service-button.btn.btn-lg{ 'data-route' => app.route, 'data-action' => ( app.process.running? ? 'stop' : 'start' ) }= app.name
+          %button.service-button.btn.btn-lg{ 'data-route' => app.route }= app.name
 
   %script{ :src => '/js/jquery-2.0.3.min.js' }
   %script{ :src => '/js/bootstrap.min.js' }

@@ -39,7 +39,7 @@ module HomeTheater
           before do
             @process = config.process
           end
-          get '/status' do
+          get '/' do
             @process.running?.to_s
           end
 
