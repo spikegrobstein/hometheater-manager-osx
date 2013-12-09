@@ -3,7 +3,6 @@ require 'bundler/setup'
 
 require 'sinatra/base'
 require 'sinatra/namespace'
-require 'oj'
 require 'sinatra/json'
 require 'haml'
 
@@ -34,16 +33,12 @@ module HomeTheater
 
     set :bind, '0.0.0.0'
     set :root, File.join( File.dirname(__FILE__), '../..' )
-    set :json_encoder, MultiJson
 
     namespace '/api' do
 
       # index view of applications
       get '/' do
-        [ 200,
-          { 'Content-Type' => 'application/json' },
-          MultiJson.dump(APPLICATIONS.map(&:to_json))
-        ]
+        json APPLICATIONS.map(&:to_json)
       end
 
       APPLICATIONS.each do |config|
