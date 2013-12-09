@@ -15,6 +15,7 @@ GEM
     i18n (0.6.9)
     method_source (0.8.2)
     multi_json (1.8.2)
+    oj (2.4.0)
     pry (0.9.12.4)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -45,6 +46,7 @@ DEPENDENCIES
   activesupport (~> 3.0)
   cocaine
   haml
+  oj
   pry
   sinatra
   sinatra-contrib
