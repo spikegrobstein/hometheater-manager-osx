@@ -57,13 +57,11 @@
         url: [ '/api', route, action ].join('/'),
         data: '',
         success: function() {
-          this.updateButtonContent( element );
-
-          console.log('slipping interval');
-          clearInterval( bc.autoUpdateThread );
-          bc.autoUpdateThread = null;
-          bc.timedUpdateAllButtons();
+          // zap the next UI update and force timer to start over
+          clearInterval( this.autoUpdateThread );
+          this.timedUpdateAllButtons();
         }.bind(bc),
+
         error: function() {
           alert('ERROR');
         }
@@ -74,13 +72,7 @@
   }
 
   ButtonController.prototype.timedUpdateAllButtons = function() {
-    // skip the fist run if there's a current thread configured...
-    if ( this.autoUpdateThread !== null ) {
-      console.log('updating by timed...')
-      this.updateAllButtons();
-    } else {
-      console.log('skipping...');
-    }
+    this.updateAllButtons();
 
     this.autoUpdateThread = setTimeout( this.timedUpdateAllButtons.bind(this), this.timeout );
   }
