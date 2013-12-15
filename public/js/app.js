@@ -41,6 +41,8 @@
     buttons.each(function(i, button) {
       this.updateButtonContent( button );
     }.bind(this));
+
+    return false; // prevent event bubbling
   }
 
   // configure each button so when clicked, it'll perform the appropriate action
