@@ -7,7 +7,7 @@
   }
 
   // ensure that a button's class is correct
-  // based on its action
+  // based on its action (make it red if it's gonna start it, green to stop)
   ButtonController.prototype.updateButtonContent = function( element ) {
     $.ajax({
       type: 'GET',
@@ -34,6 +34,7 @@
     });
   }
 
+  // updates the state of all buttons
   ButtonController.prototype.updateAllButtons = function() {
     var buttons = $('.service-button');
 
@@ -41,8 +42,6 @@
     buttons.each(function(i, button) {
       this.updateButtonContent( button );
     }.bind(this));
-
-    return false; // prevent event bubbling
   }
 
   // configure each button so when clicked, it'll perform the appropriate action
@@ -58,6 +57,7 @@
         type: 'POST',
         url: [ '/api', route, action ].join('/'),
         data: '',
+
         success: function() {
           // zap the next UI update and force timer to start over
           clearInterval( this.autoUpdateThread );
@@ -86,7 +86,10 @@
     bc.attachActionToButtons( $('.service-button') );
     bc.timedUpdateAllButtons();
 
-    $('#refresh-button').click(bc.updateAllButtons.bind(bc));
+    $('#refresh-button').click( function() {
+      bc.updateAllButtons.bind(bc)
+      return false;
+    });
   });
 
 })( document, window, jQuery );
