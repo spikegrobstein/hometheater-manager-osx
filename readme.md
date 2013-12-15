@@ -50,6 +50,14 @@ Setting the `enabled` value to false will make it not appear in the UI and not b
 
 Any application managed with HomeTheater Manager **MUST** be in `/Applications`.
 
+## Bookmarklet
+
+You can create a bookmarklet using the following URL:
+
+    javascript:var%20$$$htm20131214=window.open('http://services.home.spike.cx','hometheatermanager20131214','width=320,height=300,scrollbars=yes,toolbar=no,status=no,location=no,menubar=no,resizable=yes');$$$htm20131214.focus()
+
+Clicking that will open a new window, scaled to an appropriate size.
+
 ## Author
 
 HomeTheater Manager is written by Spike Grobstein and licensed under the MIT License.  
