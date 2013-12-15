@@ -5,3 +5,7 @@ ul li {
 .service-button {
   width: 100%;
 }
+
+#refresh-button {
+  color: white;
+}

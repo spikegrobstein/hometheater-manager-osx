@@ -14,6 +14,11 @@
       .navbar-header
         .navbar-brand Home Theater Manager
 
+      .collapse.navbar-collapse
+        .nav.navbar-nav.navbar-right
+          .button.btn.btn-lg
+            #refresh-button.span.glyphicon.glyphicon-refresh
+
   .container{ :style => 'margin-top: 75px;' }
     %ul.list-unstyled
       - @applications.each do |app|
