@@ -1,40 +1,53 @@
-// ensure that a button's class is correct
-// based on its action
-function update_button_content( element ) {
-  $.ajax({
-    type: 'GET',
-    url: '/api/' + $(element).data('route') + '/',
-    success: function( data ) {
-      if ( data === 'true' ) {
-        // it's running
-        // class: btn-success
-        // action: stop
-        $(element)
-          .removeClass('btn-danger')
-          .addClass('btn-success')
-          .data('action', 'stop');
-      } else {
-        // it's not running
-        // class: btn-success
-        // action: stop
-        $(element)
-          .removeClass('btn-success')
-          .addClass('btn-danger')
-          .data('action', 'start');
+(function( document, window, $ ) {
+
+  var ButtonController = function( timeout ) {
+    this.timeout = timeout; // how often to update the ui
+
+    this.autoUpdateThread = null; // store the setTimeout
+  }
+
+  // ensure that a button's class is correct
+  // based on its action
+  ButtonController.prototype.updateButtonContent = function( element ) {
+    $.ajax({
+      type: 'GET',
+      url: '/api/' + $(element).data('route') + '/',
+      success: function( data ) {
+        if ( data === 'true' ) {
+          // it's running
+          // class: btn-success
+          // action: stop
+          $(element)
+            .removeClass('btn-danger')
+            .addClass('btn-success')
+            .data('action', 'stop');
+        } else {
+          // it's not running
+          // class: btn-success
+          // action: stop
+          $(element)
+            .removeClass('btn-success')
+            .addClass('btn-danger')
+            .data('action', 'start');
+        }
       }
-    }
-  })
-}
+    });
+  }
 
-function update_all_buttons() {
-  var buttons = $('.service-button');
+  ButtonController.prototype.updateAllButtons = function() {
+    var buttons = $('.service-button');
 
-  buttons.each(function(i, button) {
-    update_button_content( button );
-  });
+    // update each individual button
+    buttons.each(function(i, button) {
+      this.updateButtonContent( button );
+    }.bind(this));
+  }
 
-  buttons
-    .click(function() {
+  // configure each button so when clicked, it'll perform the appropriate action
+  ButtonController.prototype.attachActionToButtons = function( buttons ) {
+    var bc = this;
+
+    buttons.click(function() {
       var route = $(this).data('route'),
           action = $(this).data('action'),
           element = $(this);
@@ -44,8 +57,13 @@ function update_all_buttons() {
         url: [ '/api', route, action ].join('/'),
         data: '',
         success: function() {
-          update_button_content( element );
-        },
+          this.updateButtonContent( element );
+
+          console.log('slipping interval');
+          clearInterval( bc.autoUpdateThread );
+          bc.autoUpdateThread = null;
+          bc.timedUpdateAllButtons();
+        }.bind(bc),
         error: function() {
           alert('ERROR');
         }
@@ -53,11 +71,29 @@ function update_all_buttons() {
 
       return false;
     });
-}
+  }
 
-$(function() {
-  update_all_buttons();
+  ButtonController.prototype.timedUpdateAllButtons = function() {
+    // skip the fist run if there's a current thread configured...
+    if ( this.autoUpdateThread !== null ) {
+      console.log('updating by timed...')
+      this.updateAllButtons();
+    } else {
+      console.log('skipping...');
+    }
 
-  $('#refresh-button').click(update_all_buttons);
-});
+    this.autoUpdateThread = setTimeout( this.timedUpdateAllButtons.bind(this), this.timeout );
+  }
+
+  $(function() {
+    var bc = new ButtonController( 5000 );
+
+    bc.updateAllButtons();
+    bc.attachActionToButtons( $('.service-button') );
+    bc.timedUpdateAllButtons();
+
+    $('#refresh-button').click(bc.updateAllButtons.bind(bc));
+  });
+
+})( document, window, jQuery );
 
